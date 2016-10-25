@@ -48,14 +48,14 @@ open class ButtonLayout<Button: UIButton>: BaseLayout<Button>, ConfigurableLayou
         case .custom:
             if #available(tvOS 10.0, *) {
                 width = ceil(max(titleSize.width, minWidth))
-                height = ceil(titleSize.height + 12)
+                height = calculateHeightWithPadding(titleSize.height)
             } else {
                 // Prior to tvOS 10.0, custom buttons had the same behavior as system buttons.
                 fallthrough
             }
         case .system:
             width = ceil(max(titleSize.width + systemPadding.width, minWidth))
-            height = ceil(titleSize.height + systemPadding.height)
+            height = calculateHeightWithPadding(titleSize.height)
         case .contactAdd, .infoLight, .infoDark, .detailDisclosure:
             width = iconWidth + ceil(titleSize.width)
             height = iconHeight + iconPadding.height
@@ -63,6 +63,20 @@ open class ButtonLayout<Button: UIButton>: BaseLayout<Button>, ConfigurableLayou
 
         let size = CGSize(width: width, height: height).decreasedToSize(maxSize)
         return LayoutMeasurement(layout: self, size: size, maxSize: maxSize, sublayouts: [])
+    }
+
+    // Takes into account attributed vs unattributed string, as well as the padding needed
+    // for this button. Should only be called on .custom buttons.
+    private func calculateHeightWithPadding(_ height: CGFloat) -> CGFloat {
+        switch title {
+        case .attributed(let attributedString):
+            if attributedString.length == 0 {
+                fallthrough
+            }
+            return RoundUtils.roundUpToFractionalPoint(height + systemPadding.height)
+        case .unattributed(_):
+            return ceil(height + systemPadding.height)
+        }
     }
 
     /// Unlike UILabel, UIButton has nonzero height when the title is empty.
@@ -185,7 +199,6 @@ open class ButtonLayout<Button: UIButton>: BaseLayout<Button>, ConfigurableLayou
         case .attributed(let text):
             view.setAttributedTitle(text, for: .normal)
         }
-
     }
 }
 

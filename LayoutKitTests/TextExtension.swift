@@ -18,8 +18,8 @@ extension Text {
     static var testCases: [TestCase] {
         let fontNames: [String?] = [
             nil,
-            "Helvetica",
-            "Helvetica Neue"
+//            "Helvetica",
+//            "Helvetica Neue"
         ]
 
         let texts: [Text] = [
@@ -27,10 +27,17 @@ extension Text {
             .unattributed(" "),
             .unattributed("Hi"),
             .unattributed("Hello world"),
-            .unattributed("Hello! 😄😄😄")
+            .unattributed("Hello! 😄😄😄"),
+            .attributed(NSAttributedString(string: "")),
+            .attributed(NSAttributedString(string: " ")),
+            .attributed(NSAttributedString(string: "Hi")),
+            .attributed(NSAttributedString(string: "Hello world")),
+            .attributed(NSAttributedString(string: "👍🏽Color modifiers☝🏻☝🏿")),
+            .attributed(NSAttributedString(string: "Hello! 😄😄😄")),
+//            .attributed(NSAttributedString(string: "Hello! 😄😄😄", attributes: [NSFontAttributeName: UIFont.helvetica(size: 42)]))
         ]
 
-        let fontSizes = 0...5
+        let fontSizes = 0...30
 
         var tests = [TestCase]()
         for fontName in fontNames {
