@@ -12,6 +12,8 @@ public typealias View = NSView
 
 public typealias UserInterfaceLayoutDirection = NSUserInterfaceLayoutDirection
 
+public typealias CollectionViewLayout = NSCollectionViewLayout
+
 extension NSView {
     
     func convertToAbsoluteCoordinates(_ rect: CGRect) -> CGRect {

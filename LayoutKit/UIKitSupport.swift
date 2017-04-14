@@ -14,6 +14,8 @@ public typealias EdgeInsets = UIEdgeInsets
 
 public typealias UserInterfaceLayoutDirection = UIUserInterfaceLayoutDirection
 
+public typealias CollectionViewLayout = UICollectionViewLayout
+
 extension UIView {
 
     func convertToAbsoluteCoordinates(_ rect: CGRect) -> CGRect {
